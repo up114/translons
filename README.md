@@ -3,7 +3,12 @@
 **Environment**
 - ribo_env.yml: contains the necessary packages for all function other than the genomic overlap comparison
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+**Pipeline Programs**
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **ORFPipeline.py**
+
 This is the data pipeline used for identifying upstream and downstream open-reading frames (uORFs/dORFs) in a Ribo-Seq file. This pipeline considers each experiment independently, which was used for the EMBRYO Ribo-Seq data.
 The steps of the pipeline are:
 1) Identify all possible uORFs and dORFs in the APPRIS transcript annotation file
@@ -20,7 +25,7 @@ Data files required
     - in Fasta GZ file format
     - Genetic sequences should be preceded with gene information formatted as: *>**ENSMUST00000070533.4**|ENSMUSG00000051951.5|OTTMUSG00000026353.2|OTTMUST00000065166.1|**Xkr4-201**|Xkr4|3634|**UTR5:1-150**|**CDS:151-2094**|UTR3:2095-3634|*
     - Sequences in CAPITAL LETTERS
-    - like *appris_mouse_v2_selected.fa.gz*
+    - like *appris_mouse_v2_selected.fa.gz* in references
 - A .ribo ribosome profiling file with coverage data
 Both the APPRIS and Ribo-Seq file can be found in *Data Files*
   
@@ -31,6 +36,7 @@ Data files outputted
 
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **ORFPipelineSummed.py**
+
 This is the data pipeline used for identifying upstream and downstream open-reading frames (uORFs/dORFs) in a Ribo-Seq file. This pipeline sums coverage across experiments, which was used for the HIPPOCAMPAL Ribo-Seq data. 
 The steps of the pipeline are:
 1) Identify all possible uORFs and dORFs in the APPRIS transcript annotation file
@@ -47,7 +53,7 @@ Data files required
     - in Fasta GZ file format
     - Genetic sequences should be preceded with gene information formatted as: *>**ENSMUST00000070533.4**|ENSMUSG00000051951.5|OTTMUSG00000026353.2|OTTMUST00000065166.1|**Xkr4-201**|Xkr4|3634|**UTR5:1-150**|**CDS:151-2094**|UTR3:2095-3634|*
     - Sequences in CAPITAL LETTERS
-    - like *appris_mouse_v2_selected.fa.gz*
+    - like *appris_mouse_v2_selected.fa.gz* in references
 - A .ribo ribosome profiling file with coverage data
 Both the APPRIS and Ribo-Seq file can be found in *Data Files*
   
@@ -58,12 +64,13 @@ Data files outputted
 
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **ribobaseFTFilter.py**
+
 This program aggregates reads across highly periodic experiments in RiboBase, then perform FT on ORF coordinates in aggregated dataset.
 
 
 Inputs:
 - database : a csv file with the studies and experiments to analyze
-	- like *fin_version_database_mouse_pct75.csv* in Data Files
+	- like *final_database_mouse.csv* in references, filtered by the "75periodicity_passed" column
 	- these are the RiboBase studies in which >= 75% of CDS-mapped reads align to one frame
 - orfs: a csv with gene names, start coordinate, and stop coordinate (column names: "Gene", "Start", "Stop")
 	- this is *output_file* from ORFPipelineSummed.py and *uniqueorfs_file* from ORFPipeline.py
@@ -71,8 +78,13 @@ Inputs:
 
 Output:
 - outfile: output csv file with ORFs that pass FT filter
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Analysis Programs**
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **addinfo.py**
+
 This program adds additional information to the CSV file containing basic ORF information
 
 Inputs:
@@ -80,7 +92,7 @@ Inputs:
     - in Fasta GZ file format
     - Genetic sequences should be preceded with gene information formatted as: *>**ENSMUST00000070533.4**|ENSMUSG00000051951.5|OTTMUSG00000026353.2|OTTMUST00000065166.1|**Xkr4-201**|Xkr4|3634|**UTR5:1-150**|**CDS:151-2094**|UTR3:2095-3634|*
     - Sequences in CAPITAL LETTERS
-    - like *appris_mouse_v2_selected.fa.gz*
+    - like *appris_mouse_v2_selected.fa.gz* in references
 - ORFs file: a CSV with transcript, start, and stop (column names: "Transcript", "Start", "True_Stop")
 
 Output:
@@ -88,11 +100,12 @@ Output:
 
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **RibobaseRNASeq.py**
+
 This program records ORF and CDS Ribo-Seq and RNA-seq reads in RiboBase datasets
 
 Inputs:
 - database : a csv file with the studies and experiments to analyze
-	- like *fin_version_database_mouse_only_complete.csv* in Data Files
+	- like *final_database_mouse.csv* in references
 - orfs: a csv with gene names, u/dORF start and stop coordinates, and CDS start and stop coordinates
 	- column names: "Gene", "Start", "Stop", "CDS_Start", "CDS_Stop"
 	- this file is the output of addinfo.py, which adds the CDS coordinates

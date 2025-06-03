@@ -1,4 +1,4 @@
-# translons
+# Translons
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Environment**
 - ribo_env.yml: contains the necessary packages for all function other than the genomic overlap comparison
@@ -112,14 +112,3 @@ Inputs:
 
 Output:
 - outfile: output csv file with u/dORF Ribo-Seq and RNA-Seq reads in RiboBase
-
-Note: To make a table of cell line averages for all ORFs, use the following R code:
-output <- output %>% group_by(Cell_Line, Gene, Start, True_Stop, Type) %>% summarise(`ORF Reads` = mean(CPM))
-output <- pivot_wider(output, names_from = Cell_Line, values_from = 'ORF Reads') %>% 
-  dplyr::rename(
-    Stop = True_Stop
-  )
-output = output 
-
- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

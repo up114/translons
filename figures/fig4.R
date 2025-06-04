@@ -25,7 +25,7 @@ neural_data <- left_join(dataN, dplyr::select(orfN, Gene, Start, Stop, Type),
 neural_data <- neural_data %>% mutate(Context = "Neural")
 embryo_data <- embryo_data %>% mutate(Context = "Embryo")
 combined_data <- bind_rows(neural_data, embryo_data)
-reads_CPM <- data.frame(reads_CPM = ((combined_data$`uORF Reads` / combined_data$`Experiment Reads`) * 1000000))
+reads_CPM <- data.frame(reads_CPM = ((combined_data$`ORF Reads` / combined_data$`Experiment Reads`) * 1000000))
 combined_data <- cbind(combined_data, reads_CPM)
 gene_CPM <- data.frame(gene_CPM = ((combined_data$`CDS Reads` / combined_data$`Experiment Reads`) * 1000000))
 combined_data <- cbind(combined_data, gene_CPM)

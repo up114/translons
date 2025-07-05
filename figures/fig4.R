@@ -316,7 +316,7 @@ specificity_correlation <- function(data, orftype, fillColor) {
     ) +
     geom_hline(yintercept = 0, color = "black", linewidth = 0.5) 
   p = ggMarginal(p, type = "density", groupFill = TRUE, margins = "y")
-  return(list(plot = p, corr_df = merged, corr_res = cor_result, margins = "y"))
+  return(list(plot = p, corr_df = merged, corr_res = cor_result))
 }
 
 dataN = combined_data[combined_data$Context == "Neural", ]

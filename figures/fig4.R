@@ -94,7 +94,7 @@ theme_custom <- theme_minimal() +
     axis.title = element_text(size = 8),
     legend.title=element_text(size=7), 
     legend.text=element_text(size=7),
-    legend.key.size = unit(0.5, "lines"),
+    legend.key.size = unit(0.5, "lines")
   )
 
 theme_custom_x0 <- theme_minimal() +
@@ -215,6 +215,11 @@ plot_partial_correlation <- function(data, fillColor, orftype, xPos, yOff) {
   outcorr$padj <- p.adjust(outcorr$p, method = "fdr")
   mean_R <- mean(outcorr$R, na.rm = TRUE)
 
+  # Run Wilcoxon signed-rank test
+  rhos <- outcorr$R[!is.na(outcorr$R)]
+  wilcox_p <- wilcox.test(rhos, mu = 0, alternative = "two.sided")$p.value
+  print(wilcox_p)
+  
   # Generate violin plot
  plot_data = outcorr %>% filter(!is.na(R))
  p =  ggplot(plot_data, aes(x = "", y = R)) +
@@ -277,6 +282,11 @@ specificity_correlation <- function(data, orftype, fillColor) {
     outcorr[outcorr$Name == orf, "R"] <- test$estimate
     outcorr[outcorr$Name == orf, "p"] <- test$p.value
   }
+  outcorr$padj <- p.adjust(outcorr$p, method = "fdr")
+
+  # Run Wilcoxon signed-rank test
+  rhos <- outcorr$R[!is.na(outcorr$R)]
+  wilcox_p <- wilcox.test(rhos, mu = 0, alternative = "two.sided")$p.value
   
   # Spearman for Gini vs. ORF-CDS rho
   merged <- left_join(avg_wide[, c("Name", "Gini")], outcorr, by = "Name") %>%

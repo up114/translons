@@ -124,7 +124,7 @@ def find_ORFs(appris_file, min_len, max_len) :
             file_start = next_file_start
             continue
 
-        # Find CDS coordinates - COULD REPLACE WITH CDS IDENTIFIED FROM ADDINFO
+        # Find CDS coordinates
         gene, CDS_start, CDS_stop = find_CDS(file_name)
 
         current = sequence[file_start + len(file_name) + 1:next_file_start].replace("\n", "")
@@ -432,5 +432,6 @@ def main() :
 
     # 7) Output the unique ORF candidates
     uniqueorfs_df.to_csv(uniqueorfs_file, index=False)
+
 
 main()

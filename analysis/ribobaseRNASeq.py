@@ -81,7 +81,7 @@ def psite_offset(ribo_object, exp, mmin, mmax) :
     p_site = {}
 
     for index, row in df.iterrows():
-        max_value_index = row.iloc[35:41].idxmax() # p-site offsets are restricted to a 11-16 nt range
+        max_value_index = row.iloc[35:41].idxmax()
         offset = -1 * max_value_index
 
         p_site[index[1]] = offset

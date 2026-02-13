@@ -155,7 +155,7 @@ def find_FT(database, transcripts, database_path):
 
 
                         for k in range(mmin, (mmax + 1)):
-                            df = r_file.get_coverage(experiment=experiment, range_lower=k, range_upper=k,
+                            df = r_file.get_coverage(experiment=j, range_lower=k, range_upper=k,
                                                           alias=True)
                             for l in range(len(genes)):
                                 gene = genes[l]
@@ -221,5 +221,6 @@ def main():
     all_df, accepted_df = find_FT(database, orfs, database_path)
     output = pd.DataFrame.from_dict(accepted_df)
     output.to_csv(outfile, index=False)
+
 
 main()
